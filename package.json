@@ -2,16 +2,11 @@
   "name": "@vscode/telemetry-extractor",
   "version": "1.11.0",
   "description": "Extracts telemetry from VS Code",
+  "main": "out/index.js",
+  "typings": "vscode-telemetry-extractor.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/microsoft/vscode-telemetry-extractor"
-  },
-  "license": "MIT",
-  "author": "lramos15",
-  "main": "out/index.js",
-  "typings": "vscode-telemetry-extractor.d.ts",
-  "bin": {
-    "vscode-telemetry-extractor": "./out/extractor.js"
   },
   "scripts": {
     "compile": "tsc",
@@ -22,6 +17,11 @@
     "test": "mocha out/tests/mocha/*.js",
     "watch": "tsc --watch"
   },
+  "bin": {
+    "vscode-telemetry-extractor": "./out/extractor.js"
+  },
+  "author": "lramos15",
+  "license": "MIT",
   "dependencies": {
     "@vscode/ripgrep": "^1.15.9",
     "command-line-args": "^5.2.1",
