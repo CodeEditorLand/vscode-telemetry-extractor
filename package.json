@@ -1,45 +1,54 @@
 {
-  "name": "@vscode/telemetry-extractor",
-  "version": "1.11.0",
-  "description": "Extracts telemetry from VS Code",
-  "main": "out/index.js",
-  "typings": "vscode-telemetry-extractor.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/microsoft/vscode-telemetry-extractor"
-  },
-  "scripts": {
-    "compile": "tsc",
-    "coverage": "nyc mocha out/tests/mocha/*.js",
-    "extract-core": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints -f telemetry",
-    "extract-core-verbose": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints --silent --verbose",
-    "lint": "eslint **/*.ts",
-    "test": "mocha out/tests/mocha/*.js",
-    "watch": "tsc --watch"
-  },
-  "bin": {
-    "vscode-telemetry-extractor": "./out/extractor.js"
-  },
-  "author": "lramos15",
-  "license": "MIT",
-  "dependencies": {
-    "@vscode/ripgrep": "1.15.9",
-    "command-line-args": "5.2.1",
-    "ts-morph": "22.0.0"
-  },
-  "devDependencies": {
-    "@types/command-line-args": "5.2.3",
-    "@types/mocha": "10.0.6",
-    "@types/node": "20.11.30",
-    "@typescript-eslint/eslint-plugin": "7.3.1",
-    "@typescript-eslint/parser": "7.3.1",
-    "eslint": "8.57.0",
-    "eslint-plugin-security": "2.1.1",
-    "mocha": "10.3.0",
-    "nyc": "15.1.0",
-    "source-map-support": "0.5.21",
-    "ts-node": "10.9.2",
-    "typescript": "5.4.2",
-    "typescript-eslint": "7.3.1"
-  }
+	"name": "@vscode/telemetry-extractor",
+	"version": "0.0.1",
+	"private": false,
+	"description": "Extracts telemetry from VS Code",
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
+	"main": "out/index.js",
+	"typings": "vscode-telemetry-extractor.d.ts",
+	"bin": {
+		"vscode-telemetry-extractor": "./out/extractor.js"
+	},
+	"scripts": {
+		"compile": "tsc",
+		"coverage": "nyc mocha out/tests/mocha/*.js",
+		"extract-core": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints -f telemetry",
+		"extract-core-verbose": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints --silent --verbose",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"watch": "tsc --watch"
+	},
+	"dependencies": {
+		"@vscode/ripgrep": "1.15.9",
+		"command-line-args": "5.2.1",
+		"ts-morph": "22.0.0"
+	},
+	"devDependencies": {
+		"@types/command-line-args": "5.2.3",
+		"@types/mocha": "10.0.6",
+		"@types/node": "20.11.30",
+		"mocha": "10.3.0",
+		"nyc": "15.1.0",
+		"source-map-support": "0.5.21",
+		"ts-node": "10.9.2",
+		"typescript": "5.4.2",
+		"typescript-esbuild": "latest",
+		"typescript-eslint": "7.3.1"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }
