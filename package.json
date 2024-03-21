@@ -45,7 +45,7 @@
 		"source-map-support": "0.5.21",
 		"ts-node": "10.9.2",
 		"typescript": "5.4.2",
-		"typescript-esbuild": "latest",
+		"typescript-esbuild": "0.4.5",
 		"typescript-eslint": "7.3.1"
 	},
 	"publishConfig": {
