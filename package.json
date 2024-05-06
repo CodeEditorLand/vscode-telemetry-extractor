@@ -42,7 +42,7 @@
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
 		"@types/command-line-args": "5.2.3",
-		"@types/node": "20.12.7",
+		"@types/node": "20.12.10",
 		"nyc": "15.1.0",
 		"source-map-support": "0.5.21"
 	},
