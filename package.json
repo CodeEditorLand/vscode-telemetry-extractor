@@ -1,26 +1,6 @@
 {
 	"name": "@vscode/telemetry-extractor",
-	"version": "0.0.1",
-	"private": false,
 	"description": "Extracts telemetry from VS Code",
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandTelemetryExtractor#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandTelemetryExtractor/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandTelemetryExtractor.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "🛬 Land —",
-		"email": "Land@PlayForm.Cloud",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"type": "module",
 	"main": "out/index.js",
 	"typings": "vscode-telemetry-extractor.d.ts",
 	"bin": {
@@ -40,13 +20,9 @@
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"@types/command-line-args": "5.2.3",
 		"@types/node": "20.12.10",
 		"nyc": "15.1.0",
 		"source-map-support": "0.5.21"
-	},
-	"publishConfig": {
-		"access": "public"
 	}
 }
