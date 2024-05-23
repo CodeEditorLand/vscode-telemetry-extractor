@@ -1,8 +1,6 @@
-.DS_Store
 /src/telemetry-sources
 out
 merger/*
-yarn.lock
 .vscode/settings.json
 *.json
 coverage
