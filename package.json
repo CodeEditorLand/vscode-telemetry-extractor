@@ -9,8 +9,8 @@
 	"description": "Extracts telemetry from VS Code",
 	"devDependencies": {
 		"@types/command-line-args": "^5.2.3",
-		"@types/node": "^18.18.2",
-		"nyc": "^15.1.0",
+		"@types/node": "^20.14.2",
+		"nyc": "^17.0.0",
 		"source-map-support": "^0.5.21"
 	},
 	"main": "out/index.js",
