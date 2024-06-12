@@ -3,15 +3,15 @@
 		"vscode-telemetry-extractor": "./out/extractor.js"
 	},
 	"dependencies": {
-		"command-line-args": "^5.2.1",
-		"ts-morph": "^22.0.0"
+		"command-line-args": "5.2.1",
+		"ts-morph": "22.0.0"
 	},
 	"description": "Extracts telemetry from VS Code",
 	"devDependencies": {
-		"@types/command-line-args": "^5.2.3",
-		"@types/node": "^20.14.2",
-		"nyc": "^17.0.0",
-		"source-map-support": "^0.5.21"
+		"@types/command-line-args": "5.2.3",
+		"@types/node": "20.14.2",
+		"nyc": "17.0.0",
+		"source-map-support": "0.5.21"
 	},
 	"main": "out/index.js",
 	"name": "@vscode/telemetry-extractor",
