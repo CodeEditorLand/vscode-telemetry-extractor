@@ -1,8 +1,0 @@
-[
-    {
-        "workingDir": "src/tests/mocha/resources",
-        "sourceDirs": [
-            "tsparser-tests/large-event-tests"
-        ]
-    }
-]
