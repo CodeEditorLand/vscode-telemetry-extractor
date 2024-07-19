@@ -13,13 +13,13 @@
 		"extract-core-verbose": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints --silent --verbose"
 	},
 	"dependencies": {
-		"command-line-args": "6.0.0",
-		"ts-morph": "23.0.0"
+		"command-line-args": "5.2.1",
+		"ts-morph": "22.0.0"
 	},
 	"devDependencies": {
 		"@types/command-line-args": "5.2.3",
-		"@types/node": "20.14.11",
-		"nyc": "17.0.0",
+		"@types/node": "18.18.2",
+		"nyc": "15.1.0",
 		"source-map-support": "0.5.21"
 	}
 }
