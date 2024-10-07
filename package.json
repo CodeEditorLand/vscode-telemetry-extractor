@@ -4,7 +4,7 @@
 	},
 	"dependencies": {
 		"command-line-args": "6.0.0",
-		"ts-morph": "23.0.0"
+		"ts-morph": "24.0.0"
 	},
 	"description": "Extracts telemetry from VS Code",
 	"devDependencies": {
