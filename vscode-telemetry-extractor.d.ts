@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { PathLike } from "fs";
-
 /**
  * The options which the parser takes in
  * evenetPrefix: The prefix to append to all telemetry event names
  * applyEndpoints: Whether to include the endPoints property on events in the final report
  */
 export interface ParserOptions {
-	eventPrefix: string;
-	applyEndpoints: boolean;
-	patchDebugEvents: boolean;
-	lowerCaseEvents: boolean;
-	silenceOutput: boolean;
-	verbose: boolean;
+    eventPrefix: string;
+    applyEndpoints: boolean;
+    patchDebugEvents: boolean;
+    lowerCaseEvents: boolean;
+    silenceOutput: boolean;
+    verbose: boolean;
 }
 
 /**
@@ -23,47 +22,43 @@ export interface ParserOptions {
  * parserOptions: The parser options to apply to these set of directories
  */
 export interface SourceSpec {
-	sourceDirs: string[];
-	excludedDirs: string[];
-	parserOptions: ParserOptions;
+    sourceDirs: string[],
+    excludedDirs: string[],
+    parserOptions: ParserOptions
 }
 
 export interface CommonProperties {
-	[key: string]: Property;
+    [key: string]: Property;
 }
 
 export interface Events {
-	[key: string]: Event;
+    [key: string]: Event;
 }
 
 export interface Event {
-	[key: string]: Property | string | undefined;
-	comment?: string;
-	expiration?: string;
+    [key: string]: Property | string | undefined;
+    comment?: string;
+    expiration?: string;
 }
 
 export interface Property {
-	name: string;
-	comment?: string;
-	expiration?: string;
-	classification: string;
-	purpose: string;
-	endPoint?: string;
-	isMeasurement?: boolean;
+    name: string;
+    comment?: string;
+    expiration?: string;
+    classification: string;
+    purpose: string;
+    endPoint?: string;
+    isMeasurement?: boolean;
 }
 
 /**
  * Extracts and resolves all typescript declarations from a series of different sources into a formatted object
  * @param sourceSpecs The various sources and their options which you would like to extract from
  */
-export declare function extractAndResolveDeclarations(
-	sourceSpecs: Array<SourceSpec>,
-): Promise<{ events: Events; commonProperties: CommonProperties }>;
+export declare function extractAndResolveDeclarations(sourceSpecs: Array<SourceSpec>): Promise<{ events: Events, commonProperties: CommonProperties }>;
 
 /**
  * Parses a valid extractor config file into an array of sourceSpecs that can be passed into an extract function
  * @param file The path to the configuration file
  */
-export declare function convertConfigToSourceSpecs(
-	file: PathLike,
-): SourceSpec[];
+export declare function convertConfigToSourceSpecs(file: PathLike): SourceSpec[]

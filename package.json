@@ -1,25 +1,45 @@
 {
-	"bin": {
-		"vscode-telemetry-extractor": "./out/extractor.js"
-	},
-	"dependencies": {
-		"command-line-args": "6.0.0",
-		"ts-morph": "24.0.0"
-	},
-	"description": "Extracts telemetry from VS Code",
-	"devDependencies": {
-		"@types/command-line-args": "5.2.3",
-		"@types/node": "22.7.5",
-		"nyc": "17.1.0",
-		"source-map-support": "0.5.21"
-	},
-	"main": "out/index.js",
-	"name": "@vscode/telemetry-extractor",
-	"scripts": {
-		"compile": "tsc",
-		"coverage": "nyc mocha out/tests/mocha/*.js",
-		"extract-core": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints -f telemetry",
-		"extract-core-verbose": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints --silent --verbose"
-	},
-	"typings": "vscode-telemetry-extractor.d.ts"
+  "name": "@vscode/telemetry-extractor",
+  "version": "1.13.1",
+  "description": "Extracts telemetry from VS Code",
+  "main": "out/index.js",
+  "typings": "vscode-telemetry-extractor.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/vscode-telemetry-extractor"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "coverage": "nyc mocha out/tests/mocha/*.js",
+    "extract-core": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints -f telemetry",
+    "extract-core-verbose": "node ./out/extractor.js --sourceDir src/telemetry-sources/vscode --excludedDir src/telemetry-sources/vscode/extensions --eventPrefix monacoworkbench/  --outputDir . --applyEndpoints --silent --verbose",
+    "lint": "eslint **/*.ts",
+    "test": "mocha out/tests/mocha/*.js",
+    "watch": "tsc --watch"
+  },
+  "bin": {
+    "vscode-telemetry-extractor": "./out/extractor.js"
+  },
+  "author": "lramos15",
+  "license": "MIT",
+  "dependencies": {
+    "@vscode/ripgrep": "^1.15.9",
+    "command-line-args": "^5.2.1",
+    "ts-morph": "^22.0.0"
+  },
+  "devDependencies": {
+    "@types/command-line-args": "^5.2.3",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^18.18.2",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-security": "^2.1.1",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.1.0"
+  }
 }
