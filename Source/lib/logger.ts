@@ -1,5 +1,5 @@
 export function logMessage(msg: string, silenceOutput = false) {
-    if (!silenceOutput) {
-        console.log(msg);
-    }
+	if (!silenceOutput) {
+		console.log(msg);
+	}
 }
