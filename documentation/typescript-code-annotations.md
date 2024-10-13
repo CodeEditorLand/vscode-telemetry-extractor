@@ -1,6 +1,6 @@
 # Using Typescript to annotate your Typescript Code
 
-As shown in [GDPR formatted comments](comment-code-annotations.md) telemetry events can be documented in the form of hand written JSON comments.
+As shown in [`GDPR formatted comments`](comment-code-annotations.md) telemetry events can be documented in the form of hand written JSON comments.
 This form of documentation has its pros and cons, one of the major cons which is human error. Comments do not offer any computer assisted protection agianst things like simple typos while typings do.
 
 ## Declaring your telemetry handler

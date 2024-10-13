@@ -2,11 +2,11 @@
 
 # Adding new telemetry to VS Code
 
-The process of logging and annotating telemetry in the codebase is documented [here](typescript-code-annotations.md).
+The process of logging and annotating telemetry in the codebase is documented [`here`](typescript-code-annotations.md).
 
 However, we want to limit telemetry bloat, and ensure that each event added to the product is in use.  So before adding telemetry, ask yourself the following questions:
 - Will the event be used to gather essential business insight?  
-- Is this an event that could make use of the "expiration"  tag (described in the Syntax section [here](comment-code-annotations.md))?
+- Is this an event that could make use of the "expiration"  tag (described in the Syntax section [`here`](comment-code-annotations.md))?
 - Do you have an appropriate owner for the event - basically, a contact that can speak to its function and determine if it's still in use?
 
 # Telemetry Catalog
