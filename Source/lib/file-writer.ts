@@ -10,6 +10,7 @@ import * as path from "path";
  */
 export async function writeFile(outputFile: string, contents: string) {
 	const directory = path.dirname(outputFile);
+
 	return mkdirp(directory).then((dir: string) => {
 		return new Promise<void>((resolve, reject) => {
 			fs.writeFile(
@@ -33,6 +34,7 @@ async function mkdirp(dir: string): Promise<any> {
 	return mkdir(dir).then(null, function (err: any) {
 		if (err && err.code === "ENOENT") {
 			var parent = path.dirname(dir);
+
 			if (parent !== dir) {
 				// if not arrived at root
 				return mkdirp(parent).then(function () {

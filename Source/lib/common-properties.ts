@@ -4,6 +4,7 @@ import { IProperty } from "./telemetry-interfaces";
 
 export class CommonProperties {
 	public properties: Array<Property>;
+
 	constructor() {
 		this.properties = [];
 	}

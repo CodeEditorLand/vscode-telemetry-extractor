@@ -19,6 +19,7 @@ export interface IMetadata {
 export interface IProperty {
 	name: string;
 	purpose: string;
+
 	classification: string;
 	expiration?: string;
 	owner?: string;
@@ -40,6 +41,7 @@ export interface IWildcard {
 
 export interface IWildcardEntry {
 	prefix: string;
+
 	classification: { classification: string; purpose: string };
 	endpoint: string | undefined;
 }

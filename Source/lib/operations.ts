@@ -33,6 +33,7 @@ export function findOrCreate(searchTarget: Events | Fragments, name: string) {
 	let found = searchTarget.dataPoints.find((item) => {
 		return item.name === name;
 	});
+
 	if (!found) {
 		if (searchTarget instanceof Events) {
 			found = new Event(name);
@@ -41,6 +42,7 @@ export function findOrCreate(searchTarget: Events | Fragments, name: string) {
 		}
 	}
 	searchTarget.dataPoints.push(found);
+
 	return found;
 }
 
@@ -84,6 +86,7 @@ export function populateProperties(
 ) {
 	for (const propertyName in properties) {
 		const currentProperty = properties[propertyName];
+
 		if (propertyName === keywords.include) {
 			target.properties.push(new Include(currentProperty));
 		} else if (currentProperty[keywords.inline]) {
@@ -109,6 +112,7 @@ export function populateProperties(
 				currentProperty.owner,
 				currentProperty.comment,
 			);
+
 			if (applyEndpoints) {
 				const endpoint = currentProperty.endpoint
 					? currentProperty.endpoint
@@ -128,6 +132,7 @@ export function makeExclusionsRelativeToSource(
 	excludedDirs: string[],
 ) {
 	const relativeExclusions = [];
+
 	for (const excluded of excludedDirs) {
 		if (excluded.includes(sourceDir)) {
 			relativeExclusions.push(excluded.replace(sourceDir, ""));

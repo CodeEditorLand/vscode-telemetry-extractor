@@ -46,6 +46,7 @@ export interface Property {
 	name: string;
 	comment?: string;
 	expiration?: string;
+
 	classification: string;
 	purpose: string;
 	endPoint?: string;

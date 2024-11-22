@@ -42,6 +42,7 @@ if (options.config) {
 		verbose: options.verbose,
 	};
 	logMessage("....running.", parserOptions.silenceOutput);
+
 	const sourceSpec: SourceSpec = {
 		sourceDirs: resolveDirectories(options.sourceDir),
 		excludedDirs: options.excludedDir

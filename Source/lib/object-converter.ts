@@ -18,7 +18,9 @@ export async function transformOutput(
 		return Object.create(null);
 	}
 	const newEvents = Object.create(null);
+
 	const oldEvents = output.events.dataPoints;
+
 	for (const event of oldEvents) {
 		// Check if event.name ends with a number, if so throw an error because we don't support event names which end with numbers
 		if (/\d$/.test(event.name)) {
@@ -37,6 +39,7 @@ export async function transformOutput(
 				][keywords.wildcard]
 					? newEvents[event.name][keywords.wildcard]
 					: [];
+
 				for (const entry of property.entries) {
 					const found = newEvents[event.name][keywords.wildcard].find(
 						(e: any) => {
@@ -46,9 +49,12 @@ export async function transformOutput(
 							);
 						},
 					);
+
 					if (found) continue;
+
 					const newEntry = Object.create(null);
 					newEntry[keywords.prefix] = entry.prefix.toLowerCase();
+
 					if (entry.endpoint) {
 						newEntry[keywords.classification] = {
 							classification: entry.classification.classification,
@@ -75,12 +81,14 @@ export async function transformOutput(
 						newEvents[event.name][
 							propetyNameChanger(property.name)
 						]["isMeasurement"] = property.isMeasurement;
+
 					continue;
 				}
 				newEvents[event.name][propetyNameChanger(property.name)] = {
 					classification: property.classification,
 					purpose: property.purpose,
 				};
+
 				if (property.expiration) {
 					newEvents[event.name][propetyNameChanger(property.name)][
 						"expiration"
@@ -114,7 +122,9 @@ export async function transformOutput(
 		}
 	}
 	const newCommonProperties = Object.create(null);
+
 	const oldCommonProperties = output.commonProperties.properties;
+
 	for (const property of oldCommonProperties) {
 		// Handles the case where the comments can be incosistent
 		// We want to ensure that if isMeasurement is ever flagged it gets propogated
@@ -123,12 +133,14 @@ export async function transformOutput(
 				newCommonProperties[propetyNameChanger(property.name)][
 					"isMeasurement"
 				] = property.isMeasurement;
+
 			continue;
 		}
 		newCommonProperties[propetyNameChanger(property.name)] = {
 			classification: property.classification,
 			purpose: property.purpose,
 		};
+
 		if (property.endPoint) {
 			newCommonProperties[propetyNameChanger(property.name)]["endPoint"] =
 				property.endPoint;
@@ -144,6 +156,7 @@ export async function transformOutput(
 
 function propetyNameChanger(name: string) {
 	name = name.toLowerCase();
+
 	if (name.includes("<number>")) {
 		name = name.replace("<number>", "<NUMBER>");
 	}

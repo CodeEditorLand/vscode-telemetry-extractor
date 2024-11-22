@@ -18,20 +18,26 @@ export interface OutputtedDeclarations {
 
 function resolveIncludes(target: Events | Fragments, fragments: Fragments) {
 	const notResolved: Array<String> = [];
+
 	const usedFragments: Array<String> = [];
+
 	for (const item of target.dataPoints) {
 		for (let i = 0; i < item.properties.length; i++) {
 			const property = item.properties[i];
+
 			if (property instanceof Include) {
 				// Removes the current include from the array since we have filled it in
 				item.properties = item.properties.filter((val) => {
 					return val != property;
 				});
+
 				for (let reference of property.includeNames) {
 					reference = reference.substring(2, reference.length - 1);
+
 					const fragment = fragments.dataPoints.find((f) => {
 						return f.name === reference;
 					});
+
 					if (fragment) {
 						item.properties = item.properties.concat(
 							fragment.properties,
@@ -52,21 +58,27 @@ function resolveIncludes(target: Events | Fragments, fragments: Fragments) {
 
 function resolveInlines(target: Events | Fragments, fragments: Fragments) {
 	const notResolved: Array<String> = [];
+
 	const usedFragments: Array<String> = [];
+
 	for (const item of target.dataPoints) {
 		for (let i = 0; i < item.properties.length; i++) {
 			const property = item.properties[i];
+
 			if (property instanceof Inline) {
 				// Removes the current inline from the array since we are resolving it
 				item.properties = item.properties.filter((val) => {
 					return val !== property;
 				});
+
 				for (let reference of property.inlines) {
 					// Gets rid of the ${}
 					reference = reference.substring(2, reference.length - 1);
+
 					const fragment = fragments.dataPoints.find((f) => {
 						return f.name === reference;
 					});
+
 					if (fragment) {
 						usedFragments.push(fragment.name);
 						fragment.properties.forEach((prop) => {
@@ -80,6 +92,7 @@ function resolveInlines(target: Events | Fragments, fragments: Fragments) {
 									prop.owner,
 									prop.comment,
 								);
+
 								if (prop.endPoint) {
 									currentProp.endPoint = prop.endPoint;
 								}
@@ -105,20 +118,25 @@ export function resolveDeclarations(
 	verbose: boolean,
 ) {
 	let notResolved: Array<String> = [];
+
 	let usedFragments: Array<String> = [];
+
 	if (verbose) {
 		const fragmentsResolveInlines = resolveInlines(
 			declarations.fragments,
 			declarations.fragments,
 		);
+
 		const eventsResolveInlines = resolveInlines(
 			declarations.events,
 			declarations.fragments,
 		);
+
 		const fragmentsResolveIncludes = resolveIncludes(
 			declarations.fragments,
 			declarations.fragments,
 		);
+
 		const eventsResolveIncludes = resolveIncludes(
 			declarations.events,
 			declarations.fragments,
@@ -143,6 +161,7 @@ export function resolveDeclarations(
 		);
 		// Remove duplicates
 		const usedFragmentsSet = new Set(usedFragments);
+
 		const allFragments = declarations.fragments.dataPoints.map(
 			(f) => f.name,
 		);

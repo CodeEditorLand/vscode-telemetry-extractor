@@ -51,7 +51,9 @@ export class Parser {
 		absoluteFilePaths.forEach((absoluteFilePath) => {
 			if (absoluteFilePath) {
 				const fileContents = fs.readFileSync(absoluteFilePath);
+
 				let match;
+
 				while ((match = commentMatcher.exec(fileContents.toString()))) {
 					collector(absoluteFilePath, match);
 				}
@@ -67,6 +69,7 @@ export class Parser {
 	// Finds all files containing common telemetry properties in the given directory
 	private findFilesWithCommonProperties(sourceDir: string) {
 		const ripgrepPattern = "//\\s*__GDPR__COMMON__";
+
 		return this.findFiles(ripgrepPattern, sourceDir);
 	}
 
@@ -76,6 +79,7 @@ export class Parser {
 		);
 
 		const commonPropertyMatcher = /\/\/\s*__GDPR__COMMON__(.*)$/gm;
+
 		const commonPropertyDeclarations = new CommonProperties();
 		this.extractComments(
 			filesWithCommonProperties,
@@ -85,9 +89,11 @@ export class Parser {
 					const commonPropertyDeclaration = JSON.parse(
 						`{ ${match[1]} }`,
 					);
+
 					const propertyName = Object.keys(
 						commonPropertyDeclaration,
 					)[0];
+
 					const properties = commonPropertyDeclaration[propertyName];
 					// Add all the common properties to the common property object
 					const prop = new Property(
@@ -95,6 +101,7 @@ export class Parser {
 						properties.classification,
 						properties.purpose,
 					);
+
 					if (this.applyEndpoints) {
 						const endpoint = properties.endPoint
 							? properties.endPoint
@@ -114,12 +121,14 @@ export class Parser {
 				}
 			},
 		);
+
 		return commonPropertyDeclarations;
 	}
 
 	// Finds all files containing event fragments in the given directory
 	private findFilesWithFragments(sourceDir: string) {
 		const ripgrepPattern = "/*\\s*__GDPR__FRAGMENT__";
+
 		return this.findFiles(ripgrepPattern, sourceDir);
 	}
 
@@ -131,6 +140,7 @@ export class Parser {
 
 		// Using [\s\S]* instead of .* since the latter does not match when using /m option
 		const fragmentMatcher = /\/\*\s*__GDPR__FRAGMENT__([\s\S]*?)\*\//gm;
+
 		const fragmentDeclarations = new Fragments();
 		this.extractComments(
 			filesWithFragments,
@@ -145,6 +155,7 @@ export class Parser {
 						fragmentDeclarations,
 						fragmentName,
 					);
+
 					const fragmentProperties =
 						fragmentDeclaration[fragmentName];
 					populateProperties(
@@ -161,12 +172,14 @@ export class Parser {
 				}
 			},
 		);
+
 		return fragmentDeclarations;
 	}
 
 	// Find all files with complete events
 	private findFilesWithEvents(sourceDir: string) {
 		const ripgrepPattern = "/*\\s*__GDPR__\\b";
+
 		return this.findFiles(ripgrepPattern, sourceDir);
 	}
 
@@ -177,6 +190,7 @@ export class Parser {
 
 		// Using [\s\S]* instead of .* since the latter does not match when using /m option
 		const eventMatcher = /\/\*\s*__GDPR__\b([\s\S]*?)\*\//gm;
+
 		const eventDeclarations = new Events();
 		this.extractComments(
 			filesWithEvents,
@@ -184,10 +198,12 @@ export class Parser {
 			(filePath: string, match: Array<string>) => {
 				try {
 					const eventDeclaration = JSON.parse(`{ ${match[1]} }`);
+
 					let eventName = Object.keys(eventDeclaration)[0];
 					eventName = this.lowerCaseEvents
 						? eventName.toLowerCase()
 						: eventName;
+
 					const event = findOrCreate(eventDeclarations, eventName);
 					// Get the propeties which the event possesses
 					const eventProperties =
@@ -206,6 +222,7 @@ export class Parser {
 				}
 			},
 		);
+
 		return eventDeclarations;
 	}
 
@@ -215,10 +232,12 @@ export class Parser {
 			sourceDir,
 			this.excludedDirs,
 		);
+
 		const exclusions =
 			relativeExclusions.length === 0 || relativeExclusions[0] === ""
 				? []
 				: relativeExclusions.map(this.toRipGrepOption).flat();
+
 		const ripgrepArgs = [
 			"--files-with-matches",
 			"--glob",
@@ -231,11 +250,13 @@ export class Parser {
 			"--",
 			sourceDir,
 		];
+
 		try {
 			const filePaths = cp.execFileSync(rgPath, ripgrepArgs, {
 				encoding: "ascii",
 				cwd: `${sourceDir}`,
 			});
+
 			return filePaths
 				.split(/(?:\r\n|\r|\n)/g)
 				.filter((path) => path && path.length > 0);
@@ -247,8 +268,11 @@ export class Parser {
 
 	private async parse(sourceDir: string): Promise<Declarations> {
 		const fragments = this.findFragments(sourceDir);
+
 		const events = this.findEvents(sourceDir);
+
 		const commonProperties = this.findCommonProperties(sourceDir);
+
 		return {
 			fragments: fragments,
 			events: events,
@@ -267,6 +291,7 @@ export class Parser {
 					events: new Events(),
 					commonProperties: new CommonProperties(),
 				};
+
 				for (const currentResult of parseResult) {
 					merge(declarations.fragments, currentResult.fragments);
 					merge(declarations.events, currentResult.events);

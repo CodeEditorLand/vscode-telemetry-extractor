@@ -18,6 +18,7 @@ class NodeVisitor {
 	private applyEndpoints: boolean;
 	public properties: Array<any> = [];
 	private resolved_property: any = Object.create(null);
+
 	constructor(
 		callexpress_node: Node,
 		prop_name: string,
@@ -79,6 +80,7 @@ class NodeVisitor {
 			return;
 		}
 		const resolved = Object.create(null);
+
 		if (this.applyEndpoints) {
 			this.resolved_property["endPoint"] = this.resolved_property[
 				"endPoint"
@@ -103,6 +105,7 @@ class NodeVisitor {
 			this.resolved_property[nodeName] = type
 				.getText()
 				.substring(1, type.getText().length - 1);
+
 			if (
 				nodeName === "owner" ||
 				nodeName === "comment" ||
@@ -123,6 +126,7 @@ class NodeVisitor {
 		// representing some kind of metadata, so we try both visitors.
 		this.visitMetadataNode(currentNode);
 		this.visitNode(currentNode);
+
 		return this.properties;
 	}
 }
@@ -133,6 +137,7 @@ export class TsParser {
 	private applyEndpoints: boolean;
 	private lowerCaseEvents: boolean;
 	private project: Project;
+
 	constructor(
 		sourceDir: string,
 		excludedDirs: string[],
@@ -170,8 +175,11 @@ export class TsParser {
 		this.excludedDirs.forEach((dir) => {
 			fileGlobs.push(`!${dir}/**`);
 		});
+
 		let rg_glob = "";
+
 		const rgGlobs = [];
+
 		for (const fg of fileGlobs) {
 			rg_glob += ` --glob ${fg}`;
 			rgGlobs.push("--glob");
@@ -185,6 +193,7 @@ export class TsParser {
 			"publicLog2|publicLogError2",
 			this.sourceDir,
 		];
+
 		try {
 			const retrieved_paths = cp.execFileSync(rgPath, ripgrepArgs, {
 				encoding: "ascii",
@@ -195,6 +204,7 @@ export class TsParser {
 				.filter((path) => path && path.length > 0)
 				.map((f) => {
 					this.project.addSourceFileAtPathIfExists(f);
+
 					return f;
 				});
 			// Empty catch because this fails when there are no typescript annotations which causes weird error messages
@@ -213,6 +223,7 @@ export class TsParser {
 						c.getExpression().getText().includes("publicLog2") &&
 						c.getArguments().length > 0,
 				);
+
 			const descendants2 = source
 				.getDescendantsOfKind(SyntaxKind.CallExpression)
 				.filter(
@@ -230,6 +241,7 @@ export class TsParser {
 		publicLogUse.forEach((pl) => {
 			try {
 				const typeArgs = pl.getTypeArguments();
+
 				if (typeArgs.length != 2) {
 					throw new Error(
 						`Missing generic arguments on public log call ${pl}`,
@@ -250,6 +262,7 @@ export class TsParser {
 					console.error(
 						`Unable to resolve event name ${pl.getFullText().trim()}, skipping....`,
 					);
+
 					return;
 				} else {
 					event_name = event_name.substring(1, event_name.length - 1);
@@ -266,6 +279,7 @@ export class TsParser {
 				const type_properties = typeArgs[1].getType().getProperties();
 				type_properties.forEach((prop) => {
 					const propName = prop.getEscapedName().toLowerCase();
+
 					const node_visitor = new NodeVisitor(
 						pl,
 						propName,
@@ -278,17 +292,22 @@ export class TsParser {
 				created_event.properties.forEach((prop) => {
 					Object.assign(events[event_name], prop);
 				});
+
 				const eventProperties = typeArgs[0].getType().getProperties();
 				// Find all eventProperties that have a number or boolean type
 				eventProperties.forEach((prop) => {
 					const propName = prop.getEscapedName().toLowerCase();
+
 					const valueDeclaration = prop.getValueDeclaration();
+
 					if (valueDeclaration === undefined) {
 						return;
 					}
 					const propType = prop.getTypeAtLocation(valueDeclaration);
+
 					if (propType.isNumber() || propType.isBoolean()) {
 						const eventToUpdate = events[event_name][propName];
+
 						if (!eventToUpdate) {
 							return;
 						}
@@ -319,6 +338,7 @@ export class TsParser {
 				events[event_name] = {};
 			}
 		});
+
 		return events;
 	}
 }

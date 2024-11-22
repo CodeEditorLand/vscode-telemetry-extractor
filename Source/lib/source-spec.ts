@@ -22,7 +22,9 @@ export interface SourceSpec {
 export function convertConfigToSourceSpecs(file: PathLike): SourceSpec[] {
 	try {
 		const config = JSON.parse(readFileSync(file).toString());
+
 		const sourceSpecs: SourceSpec[] = [];
+
 		for (const key in config) {
 			const spec = config[key];
 			// Some defaults
@@ -34,6 +36,7 @@ export function convertConfigToSourceSpecs(file: PathLike): SourceSpec[] {
 			spec.lowerCaseEvents = spec.lowerCaseEvents
 				? spec.lowerCaseEvents
 				: false;
+
 			const parserOptions: ParserOptions = {
 				eventPrefix: spec.eventPrefix ? spec.eventPrefix : "",
 				applyEndpoints: spec.applyEndpoints,
@@ -42,6 +45,7 @@ export function convertConfigToSourceSpecs(file: PathLike): SourceSpec[] {
 				silenceOutput: spec.silenceOuput,
 				verbose: spec.verbose,
 			};
+
 			const sourceSpec: SourceSpec = {
 				sourceDirs: resolveDirectories(
 					spec.sourceDirs,
@@ -58,6 +62,7 @@ export function convertConfigToSourceSpecs(file: PathLike): SourceSpec[] {
 		return sourceSpecs;
 	} catch (err) {
 		console.error(err);
+
 		return [];
 	}
 }
