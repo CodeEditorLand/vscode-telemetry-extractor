@@ -17,9 +17,9 @@ export interface OutputtedDeclarations {
 }
 
 function resolveIncludes(target: Events | Fragments, fragments: Fragments) {
-	const notResolved: Array<String> = [];
+	const notResolved: Array<string> = [];
 
-	const usedFragments: Array<String> = [];
+	const usedFragments: Array<string> = [];
 
 	for (const item of target.dataPoints) {
 		for (let i = 0; i < item.properties.length; i++) {
@@ -57,9 +57,9 @@ function resolveIncludes(target: Events | Fragments, fragments: Fragments) {
 }
 
 function resolveInlines(target: Events | Fragments, fragments: Fragments) {
-	const notResolved: Array<String> = [];
+	const notResolved: Array<string> = [];
 
-	const usedFragments: Array<String> = [];
+	const usedFragments: Array<string> = [];
 
 	for (const item of target.dataPoints) {
 		for (let i = 0; i < item.properties.length; i++) {
@@ -117,9 +117,9 @@ export function resolveDeclarations(
 	declarations: Declarations,
 	verbose: boolean,
 ) {
-	let notResolved: Array<String> = [];
+	let notResolved: Array<string> = [];
 
-	let usedFragments: Array<String> = [];
+	let usedFragments: Array<string> = [];
 
 	if (verbose) {
 		const fragmentsResolveInlines = resolveInlines(
