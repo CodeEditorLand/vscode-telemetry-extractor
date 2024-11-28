@@ -36,7 +36,7 @@ Note: If the code annotations have syntax errors, the inventory generation will 
 ## Viewing what the command has to offer
 ```bash
 vscode-telemetry-extractor --help
-Allows the extraction of telemetry annotation from code. For more details please read: https://github.com/microsoft/vscode-telemetry-extractor/blob/master/README.md
+Allows the extraction of telemetry annotation from code. For more details please read: HTTPS://github.com/microsoft/vscode-telemetry-extractor/blob/master/README.md
 
 -s --sourceDir                          The folder which you want to extract telemetry from
 -x --excludedDir                        A subdirectory which you would like to exclude from the extraction
