@@ -8,21 +8,27 @@ export interface ITelemetryData {
 
 export interface ITelemetryDataPoint {
 	name: string;
+
 	properties: Array<IProperty | IInclude | IInline | IMetadata | Wildcard>;
 }
 
 export interface IMetadata {
 	name: "owner" | "comment" | "expiration";
+
 	value: string;
 }
 
 export interface IProperty {
 	name: string;
+
 	purpose: string;
 
 	classification: string;
+
 	expiration?: string;
+
 	owner?: string;
+
 	comment?: string;
 }
 
@@ -32,6 +38,7 @@ export interface IInclude {
 
 export interface IInline {
 	inlineName: string;
+
 	inlines: Array<string>;
 }
 
@@ -43,5 +50,6 @@ export interface IWildcardEntry {
 	prefix: string;
 
 	classification: { classification: string; purpose: string };
+
 	endpoint: string | undefined;
 }

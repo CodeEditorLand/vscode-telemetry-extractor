@@ -11,6 +11,7 @@ function buildHelpMessage() {
 		if (opt.description) {
 			return opt.name.length;
 		}
+
 		return -1;
 	});
 
@@ -25,8 +26,11 @@ function buildHelpMessage() {
 			}
 			// Extra padding if you don't have an alias
 			const extraPadding = opt.alias ? 0 : 3;
+
 			outputString += `--${opt.name.padEnd(maxLength + extraPadding)}\t\t\t`;
+
 			outputString += `${opt.description}`;
+
 			console.log(outputString);
 		}
 	}

@@ -26,6 +26,7 @@ export class Event implements ITelemetryDataPoint {
 
 	constructor(name: string) {
 		this.name = name;
+
 		this.properties = [];
 	}
 }
@@ -40,10 +41,12 @@ export class Include implements IInclude {
 
 export class Inline implements IInline {
 	public inlineName: string;
+
 	public inlines: Array<string>;
 
 	constructor(name: string, inlines: Array<string>) {
 		this.inlineName = name;
+
 		this.inlines = inlines;
 	}
 }
@@ -58,7 +61,9 @@ export class Wildcard implements IWildcard {
 
 export class WildcardEntry implements IWildcardEntry {
 	public prefix: string;
+
 	public classification: { classification: string; purpose: string };
+
 	public endpoint: string | undefined;
 
 	constructor(
@@ -67,22 +72,27 @@ export class WildcardEntry implements IWildcardEntry {
 		endPoint?: string | undefined,
 	) {
 		this.prefix = prefix;
+
 		this.classification = classification;
+
 		this.endpoint = endPoint;
 	}
 }
 
 export class Metadata implements IMetadata {
 	public name: "owner" | "comment" | "expiration";
+
 	public value: string;
 
 	constructor(name: "owner" | "comment" | "expiration", value: string) {
 		this.name = name;
+
 		this.value = value;
 	}
 
 	simpleObject(): { [key: string]: string } {
 		const simple = Object.create(null);
+
 		simple[this.name] = this.value;
 
 		return simple;

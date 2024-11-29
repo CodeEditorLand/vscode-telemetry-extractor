@@ -41,6 +41,7 @@ export function findOrCreate(searchTarget: Events | Fragments, name: string) {
 			found = new Fragment(name);
 		}
 	}
+
 	searchTarget.dataPoints.push(found);
 
 	return found;
@@ -57,8 +58,10 @@ export function mergeWildcards(
 	// if we don't have a wildcard yet we make one
 	if (!wildCard) {
 		wildCard = new Wildcard();
+
 		target.properties.push(wildCard);
 	}
+
 	wildcard.forEach((w) => {
 		if (applyEndpoints) {
 			wildCard.entries.push(
@@ -117,11 +120,14 @@ export function populateProperties(
 				const endpoint = currentProperty.endpoint
 					? currentProperty.endpoint
 					: "none";
+
 				prop.endPoint = endpoint;
 			}
+
 			if (currentProperty.isMeasurement) {
 				prop.isMeasurement = currentProperty.isMeasurement;
 			}
+
 			target.properties.push(prop);
 		}
 	}
@@ -138,5 +144,6 @@ export function makeExclusionsRelativeToSource(
 			relativeExclusions.push(excluded.replace(sourceDir, ""));
 		}
 	}
+
 	return relativeExclusions;
 }

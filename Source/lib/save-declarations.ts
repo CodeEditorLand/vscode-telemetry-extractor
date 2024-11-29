@@ -27,9 +27,11 @@ export function writeToFile(
 
 		return;
 	}
+
 	const json = JSON.stringify(contents);
 
 	const outputFile = path.resolve(outputDir, `${fileName}.json`);
+
 	logMessage(`...writing ${outputFile}`, !emitProgressMessage);
 
 	return fileWriter.writeFile(outputFile, json);
@@ -50,6 +52,7 @@ export async function getResolvedDeclaration(
 	);
 
 	let declarations = await parser.extractDeclarations();
+
 	declarations = resolveDeclarations(declarations, options.verbose);
 
 	return declarations;
@@ -102,8 +105,10 @@ export async function extractAndResolveDeclarations(
 					modifiedDeclartions[spec.parserOptions.eventPrefix + key] =
 						typescriptDeclarations[key];
 				}
+
 				typescriptDeclarations = modifiedDeclartions;
 			}
+
 			if (spec.parserOptions.patchDebugEvents) {
 				patchDebugEvents(
 					declarations.events,
@@ -116,12 +121,15 @@ export async function extractAndResolveDeclarations(
 				allDeclarations.commonProperties.properties.concat(
 					declarations.commonProperties.properties,
 				);
+
 			allDeclarations.events.dataPoints =
 				allDeclarations.events.dataPoints.concat(
 					declarations.events.dataPoints,
 				);
+
 			Object.assign(allTypeScriptDeclarations, typescriptDeclarations);
 		}
+
 		const formattedDeclarations: any =
 			await transformOutput(allDeclarations);
 
@@ -131,8 +139,10 @@ export async function extractAndResolveDeclarations(
 			if (formattedDeclarations.events === undefined) {
 				formattedDeclarations.events = Object.create(null);
 			}
+
 			formattedDeclarations.events[dec] = allTypeScriptDeclarations[dec];
 		}
+
 		return Promise.resolve(formattedDeclarations);
 	} catch (error) {
 		console.error(`Error: ${error}`);

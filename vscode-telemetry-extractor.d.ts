@@ -9,10 +9,15 @@ import { PathLike } from "fs";
  */
 export interface ParserOptions {
 	eventPrefix: string;
+
 	applyEndpoints: boolean;
+
 	patchDebugEvents: boolean;
+
 	lowerCaseEvents: boolean;
+
 	silenceOutput: boolean;
+
 	verbose: boolean;
 }
 
@@ -24,7 +29,9 @@ export interface ParserOptions {
  */
 export interface SourceSpec {
 	sourceDirs: string[];
+
 	excludedDirs: string[];
+
 	parserOptions: ParserOptions;
 }
 
@@ -38,18 +45,25 @@ export interface Events {
 
 export interface Event {
 	[key: string]: Property | string | undefined;
+
 	comment?: string;
+
 	expiration?: string;
 }
 
 export interface Property {
 	name: string;
+
 	comment?: string;
+
 	expiration?: string;
 
 	classification: string;
+
 	purpose: string;
+
 	endPoint?: string;
+
 	isMeasurement?: boolean;
 }
 

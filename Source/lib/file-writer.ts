@@ -42,6 +42,7 @@ async function mkdirp(dir: string): Promise<any> {
 				});
 			}
 		}
+
 		throw err;
 	});
 }

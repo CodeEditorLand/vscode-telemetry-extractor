@@ -6,13 +6,16 @@ import { Fragments } from "./fragments";
 
 export interface Declarations {
 	fragments: Fragments;
+
 	events: Events;
+
 	commonProperties: CommonProperties;
 }
 
 // We don't output Fragments as they don't really provide much context on their own
 export interface OutputtedDeclarations {
 	events: Events;
+
 	commonProperties: CommonProperties;
 }
 
@@ -42,6 +45,7 @@ function resolveIncludes(target: Events | Fragments, fragments: Fragments) {
 						item.properties = item.properties.concat(
 							fragment.properties,
 						);
+
 						usedFragments.push(fragment.name);
 					} else {
 						notResolved.push(reference);
@@ -53,6 +57,7 @@ function resolveIncludes(target: Events | Fragments, fragments: Fragments) {
 			}
 		}
 	}
+
 	return { target, notResolved, usedFragments };
 }
 
@@ -73,6 +78,7 @@ function resolveInlines(target: Events | Fragments, fragments: Fragments) {
 
 				for (let reference of property.inlines) {
 					// Gets rid of the ${}
+
 					reference = reference.substring(2, reference.length - 1);
 
 					const fragment = fragments.dataPoints.find((f) => {
@@ -81,6 +87,7 @@ function resolveInlines(target: Events | Fragments, fragments: Fragments) {
 
 					if (fragment) {
 						usedFragments.push(fragment.name);
+
 						fragment.properties.forEach((prop) => {
 							if (prop instanceof Property) {
 								// We create the new property in the format inlineName.propName keeping the rest the same
@@ -96,10 +103,12 @@ function resolveInlines(target: Events | Fragments, fragments: Fragments) {
 								if (prop.endPoint) {
 									currentProp.endPoint = prop.endPoint;
 								}
+
 								if (prop.isMeasurement) {
 									currentProp.isMeasurement =
 										prop.isMeasurement;
 								}
+
 								item.properties.push(currentProp);
 							}
 						});
@@ -110,6 +119,7 @@ function resolveInlines(target: Events | Fragments, fragments: Fragments) {
 			}
 		}
 	}
+
 	return { target, notResolved, usedFragments };
 }
 
@@ -141,21 +151,29 @@ export function resolveDeclarations(
 			declarations.events,
 			declarations.fragments,
 		);
+
 		notResolved = notResolved.concat(fragmentsResolveIncludes.notResolved);
+
 		notResolved = notResolved.concat(fragmentsResolveInlines.notResolved);
+
 		notResolved = notResolved.concat(eventsResolveIncludes.notResolved);
+
 		notResolved = notResolved.concat(eventsResolveInlines.notResolved);
 		// Remove duplicates
 		notResolved = [...new Set(notResolved)];
+
 		usedFragments = usedFragments.concat(
 			fragmentsResolveIncludes.usedFragments,
 		);
+
 		usedFragments = usedFragments.concat(
 			fragmentsResolveInlines.usedFragments,
 		);
+
 		usedFragments = usedFragments.concat(
 			eventsResolveIncludes.usedFragments,
 		);
+
 		usedFragments = usedFragments.concat(
 			eventsResolveInlines.usedFragments,
 		);
@@ -169,33 +187,45 @@ export function resolveDeclarations(
 		let unusedFragments = [
 			...new Set(allFragments.filter((x) => !usedFragmentsSet.has(x))),
 		];
+
 		notResolved = notResolved.length > 0 ? notResolved : ["None"];
+
 		unusedFragments =
 			unusedFragments.length > 0 ? unusedFragments : ["None"];
+
 		console.log(`Unresolved References: ${notResolved}`);
+
 		console.log(`Unused Fragments: ${unusedFragments}`);
+
 		declarations.fragments = fragmentsResolveInlines.target;
+
 		declarations.events = eventsResolveInlines.target;
+
 		declarations.fragments = fragmentsResolveIncludes.target;
+
 		declarations.events = eventsResolveIncludes.target;
 	} else {
 		declarations.fragments = resolveInlines(
 			declarations.fragments,
 			declarations.fragments,
 		).target;
+
 		declarations.events = resolveInlines(
 			declarations.events,
 			declarations.fragments,
 		).target;
+
 		declarations.fragments = resolveIncludes(
 			declarations.fragments,
 			declarations.fragments,
 		).target;
+
 		declarations.events = resolveIncludes(
 			declarations.events,
 			declarations.fragments,
 		).target;
 	}
+
 	return {
 		events: declarations.events,
 		commonProperties: declarations.commonProperties,

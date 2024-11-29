@@ -20,12 +20,14 @@ export class Fragments implements ITelemetryData {
 
 export class Fragment implements ITelemetryDataPoint {
 	public name: string;
+
 	public properties: Array<
 		Property | Metadata | Include | Inline | IWildcard
 	>;
 
 	constructor(name: string) {
 		this.name = name;
+
 		this.properties = [];
 	}
 }

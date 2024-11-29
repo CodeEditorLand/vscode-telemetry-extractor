@@ -18,6 +18,7 @@ import {
 
 if (options.config) {
 	const sourceSpecs = convertConfigToSourceSpecs(options.config);
+
 	extractAndResolveDeclarations(sourceSpecs).then((declarations) => {
 		if (options.outputDir) {
 			writeToFile(
@@ -41,6 +42,7 @@ if (options.config) {
 		silenceOutput: options.silenceOutput,
 		verbose: options.verbose,
 	};
+
 	logMessage("....running.", parserOptions.silenceOutput);
 
 	const sourceSpec: SourceSpec = {
@@ -50,6 +52,7 @@ if (options.config) {
 			: [],
 		parserOptions: parserOptions,
 	};
+
 	extractAndResolveDeclarations([sourceSpec]).then((declarations) => {
 		if (options.outputDir) {
 			writeToFile(

@@ -12,12 +12,19 @@ export class CommonProperties {
 
 export class Property implements IProperty {
 	public name: string;
+
 	public classification: string;
+
 	public purpose: string;
+
 	public endPoint?: string;
+
 	public isMeasurement?: boolean;
+
 	public expiration?: string;
+
 	public owner?: string;
+
 	public comment?: string;
 
 	constructor(
@@ -31,12 +38,19 @@ export class Property implements IProperty {
 		isMeasurement?: boolean,
 	) {
 		this.name = name;
+
 		this.classification = classification;
+
 		this.purpose = purpose;
+
 		this.endPoint = endpoint;
+
 		this.isMeasurement = isMeasurement;
+
 		this.expiration = expiration;
+
 		this.owner = owner;
+
 		this.comment = comment;
 	}
 }

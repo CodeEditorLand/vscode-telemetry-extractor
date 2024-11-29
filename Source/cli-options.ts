@@ -13,6 +13,7 @@ function resolveDirectories(
 			path.resolve(cwd, d),
 		);
 	}
+
 	if (options.outputDir) {
 		options.outputDir = path.resolve(cwd, options.outputDir);
 	}

@@ -19,7 +19,9 @@ import {
 
 export class Parser {
 	private sourceDirs: string[];
+
 	private excludedDirs: string[];
+
 	private applyEndpoints: boolean;
 
 	private lowerCaseEvents: boolean;
@@ -31,8 +33,11 @@ export class Parser {
 		lowerCaseEvents: boolean,
 	) {
 		this.sourceDirs = sourceDirs;
+
 		this.excludedDirs = excludedDirs;
+
 		this.applyEndpoints = applyEndpoints;
+
 		this.lowerCaseEvents = lowerCaseEvents;
 	}
 
@@ -40,6 +45,7 @@ export class Parser {
 		while (dir.startsWith("/")) {
 			dir = dir.substr(1);
 		}
+
 		return ["--glob", `!${dir}/**`];
 	}
 
@@ -81,6 +87,7 @@ export class Parser {
 		const commonPropertyMatcher = /\/\/\s*__GDPR__COMMON__(.*)$/gm;
 
 		const commonPropertyDeclarations = new CommonProperties();
+
 		this.extractComments(
 			filesWithCommonProperties,
 			commonPropertyMatcher,
@@ -106,17 +113,22 @@ export class Parser {
 						const endpoint = properties.endPoint
 							? properties.endPoint
 							: "none";
+
 						prop.endPoint = endpoint;
 					}
+
 					if (properties.isMeasurement) {
 						prop.isMeasurement = properties.isMeasurement;
 					}
+
 					commonPropertyDeclarations.properties.push(prop);
 				} catch (error) {
 					console.error(
 						`Common Property Declaration Error: ${error} in file ${filePath}`,
 					);
+
 					console.error(`Source comment:\n${match[0]}`);
+
 					process.exitCode = 1;
 				}
 			},
@@ -142,6 +154,7 @@ export class Parser {
 		const fragmentMatcher = /\/\*\s*__GDPR__FRAGMENT__([\s\S]*?)\*\//gm;
 
 		const fragmentDeclarations = new Fragments();
+
 		this.extractComments(
 			filesWithFragments,
 			fragmentMatcher,
@@ -158,6 +171,7 @@ export class Parser {
 
 					const fragmentProperties =
 						fragmentDeclaration[fragmentName];
+
 					populateProperties(
 						fragmentProperties,
 						fragment,
@@ -167,7 +181,9 @@ export class Parser {
 					console.error(
 						`Fragment Declaration Error: ${error} in file ${filePath}`,
 					);
+
 					console.error(`Source comment:\n${match[0]}`);
+
 					process.exitCode = 1;
 				}
 			},
@@ -192,6 +208,7 @@ export class Parser {
 		const eventMatcher = /\/\*\s*__GDPR__\b([\s\S]*?)\*\//gm;
 
 		const eventDeclarations = new Events();
+
 		this.extractComments(
 			filesWithEvents,
 			eventMatcher,
@@ -200,6 +217,7 @@ export class Parser {
 					const eventDeclaration = JSON.parse(`{ ${match[1]} }`);
 
 					let eventName = Object.keys(eventDeclaration)[0];
+
 					eventName = this.lowerCaseEvents
 						? eventName.toLowerCase()
 						: eventName;
@@ -208,6 +226,7 @@ export class Parser {
 					// Get the propeties which the event possesses
 					const eventProperties =
 						eventDeclaration[Object.keys(eventDeclaration)[0]];
+
 					populateProperties(
 						eventProperties,
 						event,
@@ -217,7 +236,9 @@ export class Parser {
 					console.error(
 						`Event Declaration Error: ${error} in file ${filePath}`,
 					);
+
 					console.error(`Source comment:\n${match[0]}`);
+
 					process.exitCode = 1;
 				}
 			},
@@ -294,6 +315,7 @@ export class Parser {
 
 				for (const currentResult of parseResult) {
 					merge(declarations.fragments, currentResult.fragments);
+
 					merge(declarations.events, currentResult.events);
 					// We just concatenate common properties
 					declarations.commonProperties.properties =
@@ -301,6 +323,7 @@ export class Parser {
 							currentResult.commonProperties.properties,
 						);
 				}
+
 				return resolve(declarations);
 			});
 		});

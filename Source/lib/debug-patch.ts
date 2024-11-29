@@ -7,11 +7,13 @@ export function patchDebugEvents(currentEvents: Events, eventPrefix: string) {
 	const debugProtocolErrorResponse = new Event(
 		eventPrefix + "debugProtocolErrorResponse",
 	);
+
 	debugProtocolErrorResponse.properties.push(
 		new Property("error", "CallstackOrException", "PerformanceAndHealth"),
 	);
 
 	const optin = new Event(eventPrefix + "optinstatus");
+
 	optin.properties.push(
 		new Property(
 			"optin",
@@ -24,6 +26,8 @@ export function patchDebugEvents(currentEvents: Events, eventPrefix: string) {
 			true,
 		),
 	);
+
 	currentEvents.dataPoints.push(debugProtocolErrorResponse);
+
 	currentEvents.dataPoints.push(optin);
 }

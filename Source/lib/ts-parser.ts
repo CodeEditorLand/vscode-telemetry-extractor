@@ -12,11 +12,17 @@ import { makeExclusionsRelativeToSource } from "./operations";
 
 class NodeVisitor {
 	private pl_node: Node;
+
 	private prop_name: string;
+
 	private inline: boolean = false;
+
 	private original_prop_name: string;
+
 	private applyEndpoints: boolean;
+
 	public properties: Array<any> = [];
+
 	private resolved_property: any = Object.create(null);
 
 	constructor(
@@ -25,8 +31,11 @@ class NodeVisitor {
 		applyEndpoints: boolean,
 	) {
 		this.pl_node = callexpress_node;
+
 		this.prop_name = prop_name;
+
 		this.original_prop_name = prop_name;
+
 		this.applyEndpoints = applyEndpoints;
 	}
 
@@ -37,6 +46,7 @@ class NodeVisitor {
 		if (type.isNullable()) {
 			type = type.getNonNullableType();
 		}
+
 		if (type.isStringLiteral() || type.isBooleanLiteral()) {
 			if (previousNode) {
 				// This means it is an inline because we had to recurse deeper than the first level to find the properties
@@ -48,6 +58,7 @@ class NodeVisitor {
 					)
 				) {
 					this.prop_name = `${this.prop_name}.${previousNode.getEscapedName().toLowerCase()}`;
+
 					this.inline = true;
 				}
 			}
@@ -67,9 +78,12 @@ class NodeVisitor {
 			} else {
 				this.resolved_property[nodeName] = type.getText() === "true";
 			}
+
 			return;
 		}
+
 		const properties = type.getProperties();
+
 		properties.forEach((prop) => {
 			this.visitNode(prop, currentNode);
 		});
@@ -79,6 +93,7 @@ class NodeVisitor {
 			// This handles the case where the recursion will cause the inline to be counted one too many times
 			return;
 		}
+
 		const resolved = Object.create(null);
 
 		if (this.applyEndpoints) {
@@ -88,8 +103,11 @@ class NodeVisitor {
 				? this.resolved_property["endPoint"]
 				: "none";
 		}
+
 		resolved[this.prop_name] = this.resolved_property;
+
 		this.properties.push(resolved);
+
 		this.prop_name = this.original_prop_name;
 	}
 
@@ -100,8 +118,10 @@ class NodeVisitor {
 		if (type.isNullable()) {
 			type = type.getNonNullableType();
 		}
+
 		if (type.isStringLiteral()) {
 			const nodeName = currentNode.getEscapedName();
+
 			this.resolved_property[nodeName] = type
 				.getText()
 				.substring(1, type.getText().length - 1);
@@ -125,6 +145,7 @@ class NodeVisitor {
 		// It could be a complex node with nested types or a simple node with a string literal
 		// representing some kind of metadata, so we try both visitors.
 		this.visitMetadataNode(currentNode);
+
 		this.visitNode(currentNode);
 
 		return this.properties;
@@ -133,9 +154,13 @@ class NodeVisitor {
 
 export class TsParser {
 	private sourceDir: string;
+
 	private excludedDirs: string[];
+
 	private applyEndpoints: boolean;
+
 	private lowerCaseEvents: boolean;
+
 	private project: Project;
 
 	constructor(
@@ -145,8 +170,11 @@ export class TsParser {
 		lowerCaseEvents: boolean,
 	) {
 		this.sourceDir = sourceDir;
+
 		this.excludedDirs = excludedDirs;
+
 		this.applyEndpoints = applyEndpoints;
+
 		this.lowerCaseEvents = lowerCaseEvents;
 		// We search for a TS config as that allows the language service to handle weird imports
 		if (fs.existsSync(path.join(this.sourceDir, "src/tsconfig.json"))) {
@@ -165,13 +193,16 @@ export class TsParser {
 		} else {
 			this.project = new Project({});
 		}
+
 		const fileGlobs: string[] = [];
+
 		fileGlobs.push(`**/*.ts`);
 		// Excluded added lasts because order determines what takes effect
 		this.excludedDirs = makeExclusionsRelativeToSource(
 			this.sourceDir,
 			this.excludedDirs,
 		);
+
 		this.excludedDirs.forEach((dir) => {
 			fileGlobs.push(`!${dir}/**`);
 		});
@@ -182,7 +213,9 @@ export class TsParser {
 
 		for (const fg of fileGlobs) {
 			rg_glob += ` --glob ${fg}`;
+
 			rgGlobs.push("--glob");
+
 			rgGlobs.push(fg);
 		}
 
@@ -215,6 +248,7 @@ export class TsParser {
 
 	public parseFiles() {
 		let publicLogUse: Array<CallExpression> = [];
+
 		this.project.getSourceFiles().forEach((source) => {
 			const descendants = source
 				.getDescendantsOfKind(SyntaxKind.CallExpression)
@@ -234,10 +268,12 @@ export class TsParser {
 							.includes("publicLogError2") &&
 						c.getArguments().length > 0,
 				);
+
 			publicLogUse = descendants.concat(publicLogUse, descendants2);
 		});
 
 		const events = Object.create(null);
+
 		publicLogUse.forEach((pl) => {
 			try {
 				const typeArgs = pl.getTypeArguments();
@@ -247,6 +283,7 @@ export class TsParser {
 						`Missing generic arguments on public log call ${pl}`,
 					);
 				}
+
 				if (pl.getArguments()[0].getText() === "eventName") {
 					return;
 				}
@@ -267,6 +304,7 @@ export class TsParser {
 				} else {
 					event_name = event_name.substring(1, event_name.length - 1);
 				}
+
 				event_name = this.lowerCaseEvents
 					? event_name.toLowerCase()
 					: event_name;
@@ -274,9 +312,11 @@ export class TsParser {
 				if (events[event_name] === undefined) {
 					events[event_name] = Object.create(null);
 				}
+
 				const created_event = new Event(event_name);
 				// We want the second one because public log is in the form <Event, Classification> and we care about the classification
 				const type_properties = typeArgs[1].getType().getProperties();
+
 				type_properties.forEach((prop) => {
 					const propName = prop.getEscapedName().toLowerCase();
 
@@ -285,10 +325,12 @@ export class TsParser {
 						propName,
 						this.applyEndpoints,
 					);
+
 					created_event.properties = created_event.properties.concat(
 						node_visitor.resolveProperties(prop),
 					);
 				});
+
 				created_event.properties.forEach((prop) => {
 					Object.assign(events[event_name], prop);
 				});
@@ -303,6 +345,7 @@ export class TsParser {
 					if (valueDeclaration === undefined) {
 						return;
 					}
+
 					const propType = prop.getTypeAtLocation(valueDeclaration);
 
 					if (propType.isNumber() || propType.isBoolean()) {
@@ -311,6 +354,7 @@ export class TsParser {
 						if (!eventToUpdate) {
 							return;
 						}
+
 						eventToUpdate.isMeasurement = true;
 					}
 				});
@@ -332,9 +376,11 @@ export class TsParser {
 				} else {
 					event_name = event_name.substring(1, event_name.length - 1);
 				}
+
 				event_name = this.lowerCaseEvents
 					? event_name.toLowerCase()
 					: event_name;
+
 				events[event_name] = {};
 			}
 		});
