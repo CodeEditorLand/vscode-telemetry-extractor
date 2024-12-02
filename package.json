@@ -9,7 +9,7 @@
 	"description": "Extracts telemetry from VS Code",
 	"devDependencies": {
 		"@types/command-line-args": "5.2.3",
-		"@types/node": "22.10.0",
+		"@types/node": "22.10.1",
 		"nyc": "17.1.0",
 		"source-map-support": "0.5.21"
 	},
